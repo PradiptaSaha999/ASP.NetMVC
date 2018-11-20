@@ -1,18 +1,94 @@
 ﻿
 @{
+    /**/
+
+    /**/
+
     Layout = null;
 }
 @{
     ViewBag.Title = "createNew";
 }
 <!DOCTYPE html>
-<h3>@ViewBag.Message</h3>
-<form action="~/Controllers/que/createNew">
-    First name:<br>
-    <input type="text" name="firstname" value="Mickey">
-    <br>
-    Last name:<br>
-    <input type="text" name="lastname" value="Mouse">
-    <br><br>
-    <input type="submit" value="Submit">
-</form>
+
+
+<h2>Add Question</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm("createNew", "ques"))
+        {
+
+            <div class="form-group">
+                <input hidden type="text" name="id" value=@ViewBag.id>
+                Queation:<br class="col-md-8">
+                <input type="text" name="que" placeholder="i.e What is the name of Capital City of BanglaDesh?">
+                <br>
+            </div>
+            <div id="quesitonnaireArea" class="form-group">
+
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-success" value="Submit">
+            </div>
+        }
+
+    </div>
+    <div class="col-md-2">
+        <div align="center"><button id="btnAddOptions" class="btn btn-default">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                Add Option
+                            </button></div>
+       
+    </div>
+
+    <div class="col-md-2">
+        <div align="center" id="ps"><button id="btnRemoveOptions" class="btn btn-default">
+                                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                        Remove Option
+                                    </button></div>
+    </div>
+</div>
+   
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var a = 0;
+            var b = 0;
+            if (b == 0) {
+                $("#ps").hide();
+                $("#rr").hide();
+            }
+            $("#btnAlert").click(function () {
+                alert($("#quesitonnaireArea1").html());
+            });
+            $("#btnAddTextbox").click(function () {
+                var html = '<div>Textbox<input name="que ' + a + '" type="text">' + a + '</input></div>'
+                $("#quesitonnaireArea").append(html);
+                a = a + 1;
+
+            });
+            $("#btnAddOptions").click(function () {
+                var html = '<div class="op' + b+'"><input type="radio" disabled="disabled" name="myRadio3"><input name="op ' + b + '" placeholder="option" type="text">' + b + '</input></div>'
+                $("#quesitonnaireArea").append(html);
+                b = b + 1;
+                $("#ps").show();
+                $("#rr").show();
+            });
+            $("#btnRemoveOptions").click(function () {
+                b = b - 1;
+                var value = ".op" + b
+                $("div").remove(value);
+                if (b == 0) {
+                    $("#ps").hide();
+                }
+                    
+
+            });
+          
+        });
+    </script>
+
+

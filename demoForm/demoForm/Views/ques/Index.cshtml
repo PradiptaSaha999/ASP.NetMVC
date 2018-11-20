@@ -3,25 +3,32 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Questions</h2>
-<ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#FirstTab">View All</a></li>
-   
-</ul>
-<div class="tab-content">
-    <div id="FirstTab" class="tab-pane fade in active">@Html.Action("ViewAll")</div>
-   
 
-</div>
+<div id="FirstTab">@Html.Action("ViewNew")</div>
 
-<ul class="nav nav-tabs">
-   
-    <li class="active"><a data-toggle="tab" href="#secoundTab">Add</a></li>
-</ul>
-<div class="tab-content">
-    <div id="secoundTab" class="tab-pane fade in active">@Html.Action("Create")</div>
-    
+<div align="center">
+    <button id="btnAdd" class="btn btn-success">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        Add Question
+    </button>
 </div>
+<div id="rr">@Html.Action("createNew")</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+        $(document).ready(function () {
+            
+            $("#rr").hide();
+           
+            $("#btnAdd").click(function () {
+               
+                $("#rr").show();
+                $("#btnAdd").show();
+            });
+            
+
+        });
+</script>
 
 
 

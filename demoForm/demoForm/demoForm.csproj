@@ -158,6 +158,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201811140707018_InitialCreate.cs" />
+    <Compile Include="Migrations\201811140707018_InitialCreate.Designer.cs">
+      <DependentUpon>201811140707018_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\que.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -209,6 +214,8 @@
     <Content Include="Views\ques\Index.cshtml" />
     <Content Include="Views\ques\ViewAll.cshtml" />
     <Content Include="Views\ques\createNew.cshtml" />
+    <Content Include="Views\ques\viewNew.cshtml" />
+    <Content Include="Views\ques\DeleteNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -225,6 +232,11 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201811140707018_InitialCreate.resx">
+      <DependentUpon>201811140707018_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -20,11 +20,21 @@ namespace demoForm.Models
         public string Op4 { get; set; }
        // public int Ans { get; set; }
     }
+    public class queSet
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int ID { get; set; }
+        public int AccountID { get; set; }
+        public string QuesSet { get; set; }
 
-    public class Survey : DbContext
+    }
+
+        public class Survey : DbContext
     {
 
         public DbSet<que> Ques { get; set; }
+        public DbSet<queSet> QueSet { get; set; }
 
     }
 }
