@@ -18,7 +18,8 @@ namespace demoForm.Controllers
         // GET: ques
         public ActionResult Index()
         {
-            return View(db.Ques.ToList());
+            //return View(db.Ques.ToList());
+            return (View());
         }
 
 
@@ -45,11 +46,18 @@ namespace demoForm.Controllers
                     foreach (var key in QueSets1.Keys)
                     {
                         count = QueSets.Count + 1;
-                        QueSets.Add(key + "c" + count, QueSets1[key]);
+                       
                         if (key.Contains("que"))
                         {   
+
                             QueSets.Add("ID" + " c" + ID,ID.ToString());
+                            QueSets.Add(key + "c" + count, QueSets1[key]);
                             //idArray[Qcount] = ID;
+                            Qcount++;
+                        }
+                        else
+                        {
+                            QueSets.Add(key + "c" + count, QueSets1[key]);
                             Qcount++;
                         }
     
@@ -189,6 +197,54 @@ namespace demoForm.Controllers
             return View(que);
         }
 
+
+        [HttpPost]
+        public ActionResult EditNew(FormCollection collection)
+        {
+            int count = 0;
+            queSet queSet = new queSet();
+            queSet.ID= Convert.ToInt32(collection["id"]);
+            Dictionary<string, string> QueSets = new Dictionary<string, string>();
+            foreach (var key in collection.AllKeys)
+            {
+                if (key != "id")
+                {
+
+                    count = QueSets.Count + 1;
+                    QueSets[key + count] = collection[key];
+
+                }
+
+            }
+
+            string serialDat = JsonConvert.SerializeObject(QueSets);
+            queSet.QuesSet = serialDat;
+            db.Entry(queSet).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
+            // GET: ques/EditNew/5
+            public ActionResult EditNew(int? id)
+        {
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            queSet que = db.QueSet.Find(id);
+            ViewBag.id = id;
+            if (que == null)
+            {
+                return HttpNotFound();
+            }
+            Dictionary<string, string> QueSets = new Dictionary<string, string>();
+            QueSets = (JsonConvert.DeserializeObject<Dictionary<string, string>>(que.QuesSet));
+            ViewBag.Message1 = QueSets;
+            return View();
+        }
+
         // GET: ques/Delete/5
         public ActionResult DeleteNew(int? id)
         {
@@ -203,8 +259,10 @@ namespace demoForm.Controllers
             {
                 return HttpNotFound();
             }
-
-            return View(que);
+            Dictionary<string, string> QueSets = new Dictionary<string, string>();
+            QueSets = (JsonConvert.DeserializeObject<Dictionary<string, string>>(que.QuesSet));
+            ViewBag.Message1 = QueSets;
+            return View();
         }
 
         // POST: ques/Delete/5

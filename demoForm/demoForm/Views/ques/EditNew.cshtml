@@ -1,0 +1,122 @@
+﻿@model demoForm.Models.queSet
+
+@{
+    /**/
+
+    Layout = null;
+    ViewBag.Title = "EditNew";
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EditNew</title>
+</head>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jqueryval")
+<div class="row" align="left">
+    <div class="col-md-6">
+        @using (Html.BeginForm("EditNew", "ques"))
+        {
+            if (ViewBag.Message1 != null)
+            {
+                var opCount = 0;
+                foreach (var item in ViewBag.Message1.Keys)
+                {
+
+                    var value = ViewBag.Message1[item];
+                    if (item.Contains("que"))
+                    {
+                        <div class="form-group">
+                            <input hidden type="text" name="id" value=@ViewBag.id>
+                            Queation:<br class="col-md-8">
+                            <textarea typeof="text" name="que" rows="4" cols="40">@value</textarea>
+
+                            <br>
+                        </div>
+                    }
+                    if (item.Contains("op"))
+                    {
+                        var s = "op" + opCount;
+                        var sd = "opE" + opCount;
+                        <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text"></div>
+
+                        opCount++;
+                        ViewBag.OpCount = opCount;
+                    }
+
+
+                }
+                <div id="quesitonnaireAreaEdit" class="form-group">
+
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" value="Submit">
+                </div>
+            }
+        }
+    </div>
+
+        <div class="col-md-3">
+            <div align="center">
+                <button id="EditBtnAddOptions" class="btn btn-default">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    Add Option
+                </button>
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+            <div align="center" id="psEdit">
+                <button id="EditBtnRemoveOptions" class="btn btn-default">
+                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                    Remove Option
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+    $(document).ready(function () {
+        var a = 0;
+        var bEdit = @ViewBag.OpCount;
+        if (bEdit == 0) {
+            $("#psEdit").hide();
+            $("#rrEdit").hide();
+        }
+        $("#btnAlert").click(function () {
+            alert($("#quesitonnaireArea1").html());
+        });
+        $("#btnAddTextbox").click(function () {
+            var html = '<div>Textbox<input name="que ' + a + '" type="text">' + a + '</input></div>'
+            $("#quesitonnaireArea").append(html);
+            a = a + 1;
+
+        });
+        $("#EditBtnAddOptions").click(function () {
+            var html = '<div class="opE' + bEdit + '"><input type="radio" disabled="disabled" name="myRadio3"><input name="op ' + bEdit + '" placeholder="option" type="text"></div>'
+            $("#quesitonnaireAreaEdit").append(html);
+            bEdit = bEdit + 1;
+            $("#psEdit").show();
+            $("#rrEdit").show();
+        });
+        $("#EditBtnRemoveOptions").click(function () {
+            bEdit = bEdit - 1;
+            var value = ".opE" + bEdit
+            $("div").remove(value);
+            if (bEdit == 0) {
+                $("#psEdit").hide();
+            }
+
+
+        });
+
+    });
+    </script>
+
+

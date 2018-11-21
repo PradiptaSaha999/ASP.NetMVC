@@ -19,12 +19,13 @@
         @using (Html.BeginForm("createNew", "ques"))
         {
 
-            <div class="form-group">
-                <input hidden type="text" name="id" value=@ViewBag.id>
-                Queation:<br class="col-md-8">
-                <input type="text" name="que" placeholder="i.e What is the name of Capital City of BanglaDesh?">
-                <br>
-            </div>
+        <div class="form-group">
+            <input hidden type="text" name="id" value=@ViewBag.id>
+            Queation:<br class="col-md-8">
+            <textarea typeof="text" name="que" placeholder="i.e What is the name of Capital City of BanglaDesh?" rows="2" cols="40"></textarea>
+           
+            <br>
+        </div>
             <div id="quesitonnaireArea" class="form-group">
 
             </div>
@@ -71,7 +72,7 @@
 
             });
             $("#btnAddOptions").click(function () {
-                var html = '<div class="op' + b+'"><input type="radio" disabled="disabled" name="myRadio3"><input name="op ' + b + '" placeholder="option" type="text">' + b + '</input></div>'
+                var html = '<div class="op' + b+'"><input type="radio" disabled="disabled" name="myRadio3"><input name="op ' + b + '" placeholder="option" type="text"></div>'
                 $("#quesitonnaireArea").append(html);
                 b = b + 1;
                 $("#ps").show();

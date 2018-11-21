@@ -13,39 +13,55 @@
     <title>DeleteNew</title>
 </head>
 <body>
-    <h3>Are you sure you want to delete this?</h3>
-    <div>
+    <h4  align="left">Are you sure you want to delete this?</h4>
+    <table align="left" >
+        @if (ViewBag.Message1 != null)
+        {
+            foreach (var item in ViewBag.Message1.Keys)
+            {
 
-        <dl hidden class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.AccountID)
-            </dt>
+                var value = ViewBag.Message1[item];
 
-            <dd>
-                @Html.DisplayFor(model => model.AccountID)
-            </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.QuesSet)
-            </dt>
+               
+                if (item.Contains("que"))
+                {
 
-            <dd>
-                @Html.DisplayFor(model => model.QuesSet)
-            </dd>
+                    <tr>
+                        <td colspan=2> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Html.DisplayFor(modelItem => value)</td>
+                    </tr>
+                }
 
-        </dl>
+                if (item.Contains("op"))
+                {
 
+                    <tr>
+                        <td><input type="radio" disabled="disabled" id="myRadio3"></td>
+                        <td>
+                            @Html.DisplayFor(modelItem => value)
+                        </td>
+                    </tr>
+
+                }
+
+
+            }
+        }
+    </table>
         @using (Html.BeginForm("DeleteNewConfirmed", "ques"))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
                 <input hidden type="text" name="id" value=@ViewBag.id>
             </div>
-                <div class="form-actions no-color">
-                    <input type="submit" value="Delete" class="btn btn-default" /> |
-                    @Html.ActionLink("Back to List", "Index")
-                </div>
-                }
+            <div class="form-actions no-color">
+                <button value="Delete" class="btn btn-default" >
+                    <span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>Delete
+                </button>
+              
+
             </div>
+        }
+        
 </body>
 </html>
