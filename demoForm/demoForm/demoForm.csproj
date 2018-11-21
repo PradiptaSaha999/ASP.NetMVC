@@ -216,6 +216,7 @@
     <Content Include="Views\ques\createNew.cshtml" />
     <Content Include="Views\ques\viewNew.cshtml" />
     <Content Include="Views\ques\DeleteNew.cshtml" />
+    <Content Include="Views\ques\EditNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

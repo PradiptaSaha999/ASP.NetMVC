@@ -36,6 +36,7 @@ ul.nav.nav-tabs {
         border-top: 3px solid #16a765;
     }
 
+
 @keyframes spin {
     0% {
         transform: rotate(0deg);

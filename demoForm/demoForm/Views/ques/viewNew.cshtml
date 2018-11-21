@@ -7,77 +7,111 @@
 
 
 <h2>Questions</h2>
-<table>
-    
-    @if (ViewBag.Message1 != null)
-    {
-        var Qcount = 0;
-        foreach (var item in ViewBag.Message1.Keys)
-        {
+<div class="row">
+    <div class="col-md-12">
+        <table>
 
-            var value = ViewBag.Message1[item];
-            if (item.Contains("que"))
+            @if (ViewBag.Message1 != null)
             {
-                <tr>
-                    <td colspan=2> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Html.DisplayFor(modelItem => value)</td>
-                </tr>
+                var Qcount = 0;
+                var Odel = "";
+                var Qdel = "";
+                foreach (var item in ViewBag.Message1.Keys)
+                {
+
+                    var value = ViewBag.Message1[item];
+
+
+                    if (item.Contains("ID"))
+                    {
+                        Qcount++;
+                        var del = "del" + Qcount;
+                        var edit = "edit" + Qcount;
+                        Odel = "Odel" + Qcount;
+                        Qdel = "Qdel" + Qcount;
+                        ViewBag.Qcount = Qcount;
+                        <tr>
+                            <td></td>
+                            <td align="right">
+                                <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="deletButton btn btn-default">
+                                    <span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </button>
+
+
+                                <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="editButton btn btn-default">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                </button>
+
+
+
+                                <div id=@del>@Html.Action("DeleteNew", new { id = value })</div>
+                                <div id=@edit>@Html.Action("EditNew", new { id = value })</div>
+                            </td>
+                        </tr>
+                    }
+
+                    if (item.Contains("que"))
+                    {
+
+                        <tr class=@Qdel align="left">
+                            <td colspan=2> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Html.DisplayFor(modelItem => value)</td>
+                        </tr>
+                    }
+
+                    if (item.Contains("op"))
+                    {
+
+                        <tr class=@Odel align="left">
+                            <td><input type="radio" disabled="disabled" id="myRadio3"></td>
+                            <td>
+                                @Html.DisplayFor(modelItem => value)
+                            </td>
+                        </tr>
+
+                    }
+
+
+                }
             }
+        </table>
+    </div>
+</div>
 
-            if (item.Contains("op"))
-            {
-                <tr>
-                    <td><input type="radio" disabled="disabled" id="myRadio3"></td>
-                    <td>
-                        @Html.DisplayFor(modelItem => value)
-                    </td>
-                </tr>
-
-            }
-            if (item.Contains("ID"))
-            {
-                Qcount++;
-                var del = "del" + Qcount;
-                var Edit = "Edit" + Qcount;
-                ViewBag.Qcount = Qcount;
-                <tr>
-                    <td></td>
-                    <td align="right">
-                        <button id="btnuu" class="btn btn-default">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </button>
-
-
-                        <button id="btnEdit" class="btn btn-default">
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                        </button>
-
-                        @Html.ActionLink("Edit", "Edit", new { id = value }) |
-
-                        <div id=@del>@Html.Action("DeleteNew", new { id = value })</div>
-                    </td>
-                </tr>
-            }
-
-
-}
-}
-</table>
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
     $(document).ready(function () {
         for (var i = 1; i <=@(ViewBag.Qcount); i++) {
             $("#del" + i).hide();
+            $("#edit" + i).hide();
         }
 
         //$("#del1").hide();
-        $("#btnuu").click(function () {
+        $('.deletButton').click(function () {
+            var dividdel = $(this).attr('data-dividdel')
+            var dividedit = $(this).attr('data-dividedit')
+            var qid = $(this).attr('data-qid')
+            var oid = $(this).attr('data-oid')
 
-            $("#del1").show();
-    
+            $("#" + dividdel).show();
+            $("#" + dividedit).hide();
+            $('.' + qid).hide();
+            $('.' + oid).hide();
+
+        });
+
+        $('.editButton').click(function () {
+            var dividedit = $(this).attr('data-dividedit')
+            var dividdel = $(this).attr('data-dividdel')
+            var qid = $(this).attr('data-qid')
+            var oid = $(this).attr('data-oid')
+
+            $("#" + dividedit).show();
+            $("#" + dividdel).hide();
+            $('.' + qid).hide();
+            $('.' + oid).hide();
+
         });
 
 
     });
-</script>
+        </script>
