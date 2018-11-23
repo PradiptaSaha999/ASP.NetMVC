@@ -8,60 +8,125 @@
 }
 
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>EditNew</title>
-</head>
 
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/jqueryval")
-<div class="row" align="left">
-    <div class="col-md-6">
+
+<div class="row " align="left">
+    @{ 
+        var areaId = "quesitonnaireAreaEdit" + @ViewBag.id;
+        var addID = "addID" + @ViewBag.id;
+        var rmvID = "rmvID" + @ViewBag.id;
+        var Qtype="";
+    <div class="col-md-8" >
         @using (Html.BeginForm("EditNew", "ques"))
         {
+
             if (ViewBag.Message1 != null)
             {
                 var opCount = 0;
-                foreach (var item in ViewBag.Message1.Keys)
+        <div id=@areaId>
+            @foreach (var item in ViewBag.Message1.Keys)
+            {
+
+                var value = ViewBag.Message1[item];
+                if (item.Contains("que"))
                 {
 
-                    var value = ViewBag.Message1[item];
-                    if (item.Contains("que"))
-                    {
-                        <div class="form-group">
-                            <input hidden type="text" name="id" value=@ViewBag.id>
-                            Queation:<br class="col-md-8">
-                            <textarea typeof="text" name="que" rows="4" cols="40">@value</textarea>
+                    <div class="form-group">
+                        <input hidden type="text" name="id" value=@ViewBag.id>
+                        Queation:<br class="col-md-8">
+                        <textarea typeof="text" name="que" rows="4" cols="40">@value</textarea>
 
-                            <br>
-                        </div>
-                    }
-                    if (item.Contains("op"))
-                    {
-                        var s = "op" + opCount;
-                        var sd = "opE" + opCount;
-                        <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text"></div>
+                        <br>
 
-                        opCount++;
-                        ViewBag.OpCount = opCount;
-                    }
-
-
+                    </div>
                 }
-                <div id="quesitonnaireAreaEdit" class="form-group">
+                @*if (item.Contains("op"))
+                {
+                    var s = "op" + opCount;
+                    var sd = "opE" + opCount;
+                    <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                    opCount++;
+                    ViewBag.OpCount = opCount;
+                }*@
+
+                if (item.Contains("opRBO"))
+                {
+                    var s = "opRBO" + opCount;
+                    var sd = "opRBOE" + opCount;
+                    Qtype = "RBO";
+                    <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                    opCount++;
+                    ViewBag.OpCount = opCount;
+                }
+                if (item.Contains("opCBO"))
+                {
+                    var s = "opCBO" + opCount;
+                    var sd = "opCBOE" + opCount;
+                    Qtype = "CBO";
+                    <div class=@sd><input type="checkbox" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                    opCount++;
+                    ViewBag.OpCount = opCount;
+                }
+                if (item.Contains("opTIO"))
+                {
+                    var s = "opTIO" + opCount;
+                    var sd = "opTIOE" + opCount;
+                    Qtype = "TIO";
+                    <div class=@sd><input name=@s value=@value type="text">@opCount</div>
+
+                    opCount++;
+                    ViewBag.OpCount = opCount;
+                }
+
+                if (item.Contains("IUO"))
+                {
+                    var s = "opIUO" + opCount;
+                    var sd = "opIUOE" + opCount;
+                    Qtype = "IUO";
+                    <div class=@sd><input type="checkbox" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                    opCount++;
+                    ViewBag.OpCount = opCount;
+                }
+                if (item.Contains("opURO"))
+                {
+                    var s = "opURO" + opCount;
+                    var sd = "opUROE" + opCount;
+                    Qtype = "URO";
+                    <div class="col-md-1">
+                        <div class=@sd align="left">
+                            <button type="button" class="btnrating btn btn-default" data-attr="1" id="rating-star-1">
+                                <i class="glyphicon glyphicon-star" aria - hidden="true"></i>
+                                <input hidden name=@s value=@value>
+                            </button>
+
+                        </div>
+                    </div>
+                    opCount++;
+                    ViewBag.OpCount = opCount;
+                }
+
+
+            }
+        </div>
+                <div>
+
 
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-12">
                     <input type="submit" class="btn btn-success" value="Submit">
                 </div>
             }
         }
     </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div align="center">
-                <button id="EditBtnAddOptions" class="btn btn-default">
+                <button class="btn btn-default EditBtnAddOptions" data-areaId=@areaId id=@addID data-Qtype="@Qtype">
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     Add Option
                 </button>
@@ -69,46 +134,68 @@
 
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div align="center" id="psEdit">
-                <button id="EditBtnRemoveOptions" class="btn btn-default">
+                <button class="btn btn-default EditBtnRemoveOptions" data-areaId=@areaId id=@rmvID data-Qtype=@Qtype>
                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                     Remove Option
                 </button>
             </div>
         </div>
-
-    </div>
+    }
+</div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
     $(document).ready(function () {
         var a = 0;
         var bEdit = @ViewBag.OpCount;
+        var areaId = "";
+        var Qtype = "";
+        var Ehtml = "";
         if (bEdit == 0) {
             $("#psEdit").hide();
             $("#rrEdit").hide();
         }
-        $("#btnAlert").click(function () {
-            alert($("#quesitonnaireArea1").html());
-        });
-        $("#btnAddTextbox").click(function () {
-            var html = '<div>Textbox<input name="que ' + a + '" type="text">' + a + '</input></div>'
-            $("#quesitonnaireArea").append(html);
-            a = a + 1;
 
-        });
-        $("#EditBtnAddOptions").click(function () {
-            var html = '<div class="opE' + bEdit + '"><input type="radio" disabled="disabled" name="myRadio3"><input name="op ' + bEdit + '" placeholder="option" type="text"></div>'
-            $("#quesitonnaireAreaEdit").append(html);
+        function LoadDataEdit() {
+            if (Qtype == "RBO") {
+                Ehtml = '<div class="op' + Qtype+'E' + bEdit + '"><input type="radio" disabled="disabled" name="myRadio3"><input name="op' + Qtype + ' ' + bEdit + '" placeholder="option" type="text"></div>'
+            }
+            else if (Qtype == "CBO") {
+                Ehtml = '<div class="op' + Qtype + 'E'+ bEdit + '"><input type="checkbox" disabled="disabled" name="myRadio3"><input name="op' + Qtype + ' ' + bEdit + '" placeholder="option" type="text"></div>'
+            }
+            else if (Qtype == "TIO") {
+                Ehtml = '<div class="op' + Qtype + 'E'+ bEdit + '"><input name="op' + Qtype + bEdit + '" placeholder="option" type="text"></div>'
+            }
+            else if (Qtype == "IUO") {
+                Ehtml = '<div class="op' + Qtype + 'E'+ bEdit + '"><input type="checkbox" disabled="disabled" name="myRadio3"><input name="op' + Qtype + ' ' + bEdit + '" placeholder="option" type="text"></div>'
+            }
+            else if (Qtype == "URO") {
+
+                Ehtml = '<div class="op' + Qtype + 'E'+ bEdit + ' col-md-1"><button type="button" class="btnrating btn btn-default" name="op' + Qtype + ' ' + bEdit + '" data-attr="1" ><i class="glyphicon glyphicon-star" aria - hidden="true" ></i><input hidden name="op' + Qtype + bEdit + '" /> </button > </div>'
+
+            }
+            $("#" + areaId).append(Ehtml);
             bEdit = bEdit + 1;
+
+        }
+
+        $("#addID"+@ViewBag.id).click(function () {
+            //var html = '<div class="opE' + bEdit + '"><input type="radio" disabled="disabled" name="myRadio3"><input name="op ' + bEdit + '" placeholder="option" type="text"> ' + bEdit + '</div>'
+            areaId = $(this).attr('data-areaId')
+            Qtype = $(this).attr('data-Qtype')
+            LoadDataEdit();
             $("#psEdit").show();
-            $("#rrEdit").show();
+                $("#rrEdit").show();
+            
         });
-        $("#EditBtnRemoveOptions").click(function () {
+        $("#rmvID"+@ViewBag.id).click(function () {
             bEdit = bEdit - 1;
-            var value = ".opE" + bEdit
-            $("div").remove(value);
+            areaId = $(this).attr('data-areaId')
+            Qtype = $(this).attr('data-Qtype')
+            var value = ".op" + Qtype + "E" + bEdit
+            $("#" + areaId+" div").remove(value);
             if (bEdit == 0) {
                 $("#psEdit").hide();
             }

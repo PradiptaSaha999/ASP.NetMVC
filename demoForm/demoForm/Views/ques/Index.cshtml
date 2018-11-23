@@ -4,30 +4,33 @@
 }
 
 
-<div id="FirstTab">@Html.Action("ViewNew")</div>
 
-<div align="center">
+<div  class="form-group col-md-12" id="FirstTab">@Html.Action("ViewNew")</div>
+
+<div align="center" class="form-group col-md-12">
     <button id="btnAdd" class="btn btn-success">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
         Add Question
     </button>
 </div>
 <div id="rr">@Html.Action("createNew")</div>
-
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-        $(document).ready(function () {
-            
-            $("#rr").hide();
-           
-            $("#btnAdd").click(function () {
-               
-                $("#rr").show();
-                $("#btnAdd").show();
-            });
-            
+    $(document).ready(function () {
 
+        $("#rr").hide();
+
+        $("#btnAdd").click(function () {
+
+            $("#rr").toggle();
+            //$("#btnAdd").show();
         });
+
+
+    });
 </script>
 
 

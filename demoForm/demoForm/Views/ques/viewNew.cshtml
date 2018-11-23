@@ -3,77 +3,114 @@
     ViewBag.Title = "viewNew";
 }
 
-<!DOCTYPE html>
-
 
 <h2>Questions</h2>
 <div class="row">
     <div class="col-md-12">
-        <table>
 
-            @if (ViewBag.Message1 != null)
+
+        @if (ViewBag.Message1 != null)
+        {
+            var Qcount = 0;
+            var Odel = "";
+            var Qdel = "";
+            foreach (var item in ViewBag.Message1.Keys)
             {
-                var Qcount = 0;
-                var Odel = "";
-                var Qdel = "";
-                foreach (var item in ViewBag.Message1.Keys)
+
+                var value = ViewBag.Message1[item];
+
+
+                if (item.Contains("ID"))
                 {
+                    Qcount++;
+                    var del = "del" + Qcount;
+                    var edit = "edit" + Qcount;
+                    Odel = "Odel" + Qcount;
+                    Qdel = "Qdel" + Qcount;
+                    ViewBag.Qcount = Qcount;
 
-                    var value = ViewBag.Message1[item];
-
-
-                    if (item.Contains("ID"))
-                    {
-                        Qcount++;
-                        var del = "del" + Qcount;
-                        var edit = "edit" + Qcount;
-                        Odel = "Odel" + Qcount;
-                        Qdel = "Qdel" + Qcount;
-                        ViewBag.Qcount = Qcount;
-                        <tr>
-                            <td></td>
-                            <td align="right">
-                                <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="deletButton btn btn-default">
-                                    <span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                </button>
+                    <div align="right">
+                        <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="deletButton btn btn-default">
+                            <span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
 
 
-                                <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="editButton btn btn-default">
-                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                                </button>
+                        <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="editButton btn btn-default">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </button>
 
 
 
-                                <div id=@del>@Html.Action("DeleteNew", new { id = value })</div>
-                                <div id=@edit>@Html.Action("EditNew", new { id = value })</div>
-                            </td>
-                        </tr>
-                    }
-
-                    if (item.Contains("que"))
-                    {
-
-                        <tr class=@Qdel align="left">
-                            <td colspan=2> <span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Html.DisplayFor(modelItem => value)</td>
-                        </tr>
-                    }
-
-                    if (item.Contains("op"))
-                    {
-
-                        <tr class=@Odel align="left">
-                            <td><input type="radio" disabled="disabled" id="myRadio3"></td>
-                            <td>
-                                @Html.DisplayFor(modelItem => value)
-                            </td>
-                        </tr>
-
-                    }
-
+                        <div id=@del>@Html.Action("DeleteNew", new { id = value })</div>
+                        <div id=@edit>@Html.Action("EditNew", new { id = value })</div>
+                    </div>
 
                 }
+
+                if (item.Contains("que"))
+                {
+                    <div class="col-md-12">
+                        
+                    </div>
+                    <div class="col-md-12">
+                        <div class=@Qdel align="left">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Html.DisplayFor(modelItem => value)
+                        </div>
+                    </div>
+                }
+
+                if (item.Contains("opRBO"))
+                {
+
+                    <div class=@Odel align="left">
+                        <input type="radio" disabled="disabled" id="myRadio3">
+                        @Html.DisplayFor(modelItem => value)
+
+                    </div>
+
+                }
+                if (item.Contains("opCBO"))
+                {
+                    <div class=@Odel align="left">
+                        <input type="checkbox" disabled="disabled" id="myRadio3">
+                        @Html.DisplayFor(modelItem => value)
+
+                    </div>
+
+                }
+                if (item.Contains("opTIO"))
+                {
+                    <div class=@Odel align="left">
+
+                        <input id="Text1" value=@value >
+
+                    </div>
+                }
+
+                if (item.Contains("opIUO"))
+                {
+                    <div class=@Odel align="left">
+                        <input type="checkbox" disabled="disabled" id="myRadio3">
+                        @Html.DisplayFor(modelItem => value)
+
+                    </div>
+
+                }
+                if (item.Contains("opURO"))
+                { <div class="col-md-1">
+                        <div class=@Odel align="left">
+                            <button type="button" class="btnrating btn btn-default" data-attr="1" id="rating-star-1">
+                                <i class="glyphicon glyphicon-star" aria - hidden="true"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                }
+
+
             }
-        </table>
+        }
+
     </div>
 </div>
 
@@ -83,6 +120,7 @@
         for (var i = 1; i <=@(ViewBag.Qcount); i++) {
             $("#del" + i).hide();
             $("#edit" + i).hide();
+            
         }
 
         //$("#del1").hide();
@@ -91,7 +129,7 @@
             var dividedit = $(this).attr('data-dividedit')
             var qid = $(this).attr('data-qid')
             var oid = $(this).attr('data-oid')
-
+            
             $("#" + dividdel).show();
             $("#" + dividedit).hide();
             $('.' + qid).hide();
