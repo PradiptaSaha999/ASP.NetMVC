@@ -16,7 +16,15 @@
 
                     var value = ViewBag.Message1[item];
 
+                    if (item.Contains("ImageUpload"))
+                    {
+                        <div>
 
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
+                            <img src=@value style="margin:10px" height="200" width="200" class="imageview" />
+                        </div>
+
+                    }
 
                     if (item.Contains("que"))
                     {
@@ -74,7 +82,14 @@
 
                         </div>
                     }
+                    if (item.Contains("opIQO"))
+                    {
+                      <div>
+                          <input id="Text1" value=@value>
 
+                      </div>
+
+                    }
 
                 }
             }

@@ -14,6 +14,8 @@
             var Qcount = 0;
             var Odel = "";
             var Qdel = "";
+
+            var delEdit = "";
             foreach (var item in ViewBag.Message1.Keys)
             {
 
@@ -23,34 +25,35 @@
                 if (item.Contains("ID"))
                 {
                     Qcount++;
-                    var del = "del" + Qcount;
-                    var edit = "edit" + Qcount;
+                    delEdit = "del" + Qcount;
+
                     Odel = "Odel" + Qcount;
                     Qdel = "Qdel" + Qcount;
+
                     ViewBag.Qcount = Qcount;
 
                     <div align="right">
-                        <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="deletButton btn btn-default">
+                        <button data-dividdel=@delEdit data-qid=@Qdel data-oid=@Odel data-cid=@value class="deletButton btn btn-default">
                             <span class=" glyphicon glyphicon-trash" aria-hidden="true"></span>
                         </button>
 
 
-                        <button data-dividdel=@del data-dividedit=@edit data-qid=@Qdel data-oid=@Odel class="editButton btn btn-default">
+                        <button data-dividdel=@delEdit data-qid=@Qdel data-oid=@Odel data-cid=@value class="editButton btn btn-default">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                         </button>
 
+                        <div id=@delEdit></div>
 
 
-                        <div id=@del>@Html.Action("DeleteNew", new { id = value })</div>
-                        <div id=@edit>@Html.Action("EditNew", new { id = value })</div>
                     </div>
 
                 }
 
                 if (item.Contains("que"))
                 {
+                    <div class="modal"></div>
                     <div class="col-md-12">
-                        
+
                     </div>
                     <div class="col-md-12">
                         <div class=@Qdel align="left">
@@ -58,41 +61,50 @@
                         </div>
                     </div>
                 }
-
-                if (item.Contains("opRBO"))
+                if (item.Contains("ImageUpload"))
                 {
-
-                    <div class=@Odel align="left">
-                        <input type="radio" disabled="disabled" id="myRadio3">
-                        @Html.DisplayFor(modelItem => value)
+                    <div class="col-md-12">
 
                     </div>
+                    <div class="col-md-12">
+                        <div class=@Qdel align="left">
+                            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                            <img src=@value style="margin:10px" height="200" width="200" class="imageview" />
+                        </div>
+                    </div>
+                }
+                if (item.Contains("opRBO"))
+                {
+                    <div class="col-md-12">
+                        <div class=@Odel align="left">
+                            <input type="radio" disabled="disabled" id="myRadio3">
+                            @Html.DisplayFor(modelItem => value)
 
+                        </div>
+                    </div>
                 }
                 if (item.Contains("opCBO"))
                 {
-                    <div class=@Odel align="left">
-                        <input type="checkbox" disabled="disabled" id="myRadio3">
-                        @Html.DisplayFor(modelItem => value)
+                    <div class="col-md-12">
+                        <div class=@Odel align="left">
+                            <input type="checkbox" disabled="disabled" id="myRadio3">
+                            @Html.DisplayFor(modelItem => value)
 
-                    </div>
-
-                }
-                if (item.Contains("opTIO"))
-                {
-                    <div class=@Odel align="left">
-
-                        <input id="Text1" value=@value >
-
+                        </div>
                     </div>
                 }
+
 
                 if (item.Contains("opIUO"))
                 {
-                    <div class=@Odel align="left">
-                        <input type="checkbox" disabled="disabled" id="myRadio3">
-                        @Html.DisplayFor(modelItem => value)
+                    <div class="col-md-12">
+                        <div class=@Odel align="left">
+                            <button type="button" class="btnrating btn btn-default" value="Choose File" disabled="disabled">Choose File</button>
+                            <input disabled="disabled" placeholder="Image Path" type="text">
+                            @*<input type="checkbox" disabled="disabled" id="myRadio3">
+                            @Html.DisplayFor(modelItem => value)*@
 
+                        </div>
                     </div>
 
                 }
@@ -106,50 +118,94 @@
                         </div>
                     </div>
                 }
+                if (item.Contains("opIQO"))
+                {
+                    <div class="col-md-12">
+                        <div class=@Odel align="left">
 
+                            <input id="Text1" value=@value>
 
+                        </div>
+                    </div>
+                }
+                if (item.Contains("opTIO"))
+                {
+                    <div class="col-md-12">
+                        <div class=@Odel align="left">
+
+                            <input id="Text1" value=@value>
+
+                        </div>
+                    </div>
+                }
             }
         }
 
     </div>
 </div>
+<div class="modal"></div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+   
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script>
+  
     $(document).ready(function () {
         for (var i = 1; i <=@(ViewBag.Qcount); i++) {
             $("#del" + i).hide();
             $("#edit" + i).hide();
-            
+
         }
 
         //$("#del1").hide();
         $('.deletButton').click(function () {
-            var dividdel = $(this).attr('data-dividdel')
-            var dividedit = $(this).attr('data-dividedit')
+            var cid = $(this).attr('data-cid')
+            var dividdelEdit = $(this).attr('data-dividdel')
             var qid = $(this).attr('data-qid')
             var oid = $(this).attr('data-oid')
-            
-            $("#" + dividdel).show();
-            $("#" + dividedit).hide();
-            $('.' + qid).hide();
-            $('.' + oid).hide();
+            var url = "/ques/DeleteNew/" + cid;
+
+
+            // var dividedit = $(this).attr('data-dividedit')
+
+
+            $("#" + dividdelEdit).empty();
+            $('.' + qid).fadeToggle("slow");
+            $('.' + oid).fadeToggle("slow");
+          
+            $.get(url, function (response) {
+
+
+                $("#" + dividdelEdit).append(response);
+                $("#" + dividdelEdit).fadeToggle("slow");
+          
+            });
 
         });
 
         $('.editButton').click(function () {
-            var dividedit = $(this).attr('data-dividedit')
-            var dividdel = $(this).attr('data-dividdel')
+           // var dividedit = $(this).attr('data-dividedit')
+            var cid = $(this).attr('data-cid')
+            var dividdelEdit = $(this).attr('data-dividdel')
             var qid = $(this).attr('data-qid')
             var oid = $(this).attr('data-oid')
+            var url = "/ques/EditNew/" + cid;
 
-            $("#" + dividedit).show();
-            $("#" + dividdel).hide();
-            $('.' + qid).hide();
-            $('.' + oid).hide();
+            $body = $("body");
+            $body.addClass("loading");
+            // var dividedit = $(this).attr('data-dividedit')
+            $("#" + dividdelEdit).empty();
+            $('.' + qid).fadeToggle("slow");
+            $('.' + oid).fadeToggle("slow");
+           
+            $.get(url, function (response) {
 
+                $("#" + dividdelEdit).append(response);
+                $("#" + dividdelEdit).fadeToggle("slow");
+              
+            });
+            $body.removeClass("loading");
         });
 
 
     });
-        </script>
+</script>

@@ -27,7 +27,8 @@ namespace demoForm.Models
         public int ID { get; set; }
         public int AccountID { get; set; }
         public string QuesSet { get; set; }
-
+        [NotMapped]
+        public HttpPostedFileBase ImageUpload { get; set; }
     }
 
         public class Survey : DbContext

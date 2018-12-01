@@ -5,128 +5,151 @@
 
     Layout = null;
     ViewBag.Title = "EditNew";
+    ViewBag.OpCount = 0;
 }
 
 
 
-
+<h4  align="left">Edit:</h4>
 <div class="row " align="left">
-    @{ 
+    @{
         var areaId = "quesitonnaireAreaEdit" + @ViewBag.id;
         var addID = "addID" + @ViewBag.id;
         var rmvID = "rmvID" + @ViewBag.id;
-        var Qtype="";
-    <div class="col-md-8" >
-        @using (Html.BeginForm("EditNew", "ques"))
-        {
-
-            if (ViewBag.Message1 != null)
-            {
-                var opCount = 0;
-        <div id=@areaId>
-            @foreach (var item in ViewBag.Message1.Keys)
+        var Qtype = "";
+        <div class="col-md-8">
+            @using (Html.BeginForm("EditNew", "ques", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
 
-                var value = ViewBag.Message1[item];
-                if (item.Contains("que"))
+                if (ViewBag.Message1 != null)
                 {
+                    var opCount = 0;
+                    <div id=@areaId>
+                        @foreach (var item in ViewBag.Message1.Keys)
+                        {
 
-                    <div class="form-group">
-                        <input hidden type="text" name="id" value=@ViewBag.id>
-                        Queation:<br class="col-md-8">
-                        <textarea typeof="text" name="que" rows="4" cols="40">@value</textarea>
+                            var value = ViewBag.Message1[item];
+                            if (item.Contains("que"))
+                            {
 
-                        <br>
+                                <div class="form-group">
+                                    <input hidden type="text" name="id" value=@ViewBag.id>
+                                    Queation:<br class="col-md-8">
+                                    <textarea typeof="text" name="que" rows="4" cols="40">@value</textarea>
+
+                                    <br>
+
+                                </div>
+                            }
+
+                            if (item.Contains("ImageUpload"))
+                            {
+                                var imID = "imagePreview1" + ViewBag.id;
+                                var upID = "up" + ViewBag.id;
+                                <div class="form-group">
+                                    <input hidden type="text" name="id" value=@ViewBag.id>
+
+                                    <img src=@value style="margin:10px" height="200" width="200" class=@imID />
+                                    <input type="file" name="ImageUpload" accept="image/jpeg, image/png" id=@upID data-imID=@imID />
+                                </div>
+
+                            }
+                            @*if (item.Contains("op"))
+                                {
+                                    var s = "op" + opCount;
+                                    var sd = "opE" + opCount;
+                                    <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                                    opCount++;
+                                    ViewBag.OpCount = opCount;
+                                }*@
+
+                            if (item.Contains("opRBO"))
+                            {
+                                var s = "opRBO" + opCount;
+                                var sd = "opRBOE" + opCount;
+                                Qtype = "RBO";
+                                <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                                opCount++;
+                                ViewBag.OpCount = opCount;
+                            }
+                            if (item.Contains("opCBO"))
+                            {
+                                var s = "opCBO" + opCount;
+                                var sd = "opCBOE" + opCount;
+                                Qtype = "CBO";
+                                <div class=@sd><input type="checkbox" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                                opCount++;
+                                ViewBag.OpCount = opCount;
+                            }
+                            if (item.Contains("opTIO"))
+                            {
+                                var s = "opTIO" + opCount;
+                                var sd = "opTIOE" + opCount;
+                                Qtype = "TIO";
+                                <div class=@sd><input name=@s value=@value type="text">@opCount</div>
+
+                                opCount++;
+                                ViewBag.OpCount = opCount;
+                            }
+
+                            if (item.Contains("IUO"))
+                            {
+                                var s = "opIUO" + opCount;
+                                var sd = "opIUOE" + opCount;
+                                Qtype = "IUO";
+                                <div class=@sd><input type="checkbox" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
+
+                                opCount++;
+                                ViewBag.OpCount = opCount;
+                            }
+                            if (item.Contains("opURO"))
+                            {
+                                var s = "opURO" + opCount;
+                                var sd = "opUROE" + opCount;
+                                Qtype = "URO";
+                                <div class="col-md-1">
+                                    <div class=@sd align="left">
+                                        <button type="button" class="btnrating btn btn-default" data-attr="1" id="rating-star-1">
+                                            <i class="glyphicon glyphicon-star" aria - hidden="true"></i>
+                                            <input hidden name=@s value=@value>
+                                        </button>
+
+                                    </div>
+                                </div>
+                                opCount++;
+                                ViewBag.OpCount = opCount;
+                            }
+                            if (item.Contains("opIQO"))
+                            {
+                                var s = "opTIO" + opCount;
+                                var sd = "opTIOE" + opCount;
+                                Qtype = "TIO";
+                                <div class=@sd><input name=@s value=@value type="text">@opCount</div>
+
+                                opCount++;
+                                ViewBag.OpCount = opCount;
+                            }
+
+                        }
+                    </div>
+                    <div>
+
 
                     </div>
-                }
-                @*if (item.Contains("op"))
-                {
-                    var s = "op" + opCount;
-                    var sd = "opE" + opCount;
-                    <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
 
-                    opCount++;
-                    ViewBag.OpCount = opCount;
-                }*@
-
-                if (item.Contains("opRBO"))
-                {
-                    var s = "opRBO" + opCount;
-                    var sd = "opRBOE" + opCount;
-                    Qtype = "RBO";
-                    <div class=@sd><input type="radio" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
-
-                    opCount++;
-                    ViewBag.OpCount = opCount;
-                }
-                if (item.Contains("opCBO"))
-                {
-                    var s = "opCBO" + opCount;
-                    var sd = "opCBOE" + opCount;
-                    Qtype = "CBO";
-                    <div class=@sd><input type="checkbox" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
-
-                    opCount++;
-                    ViewBag.OpCount = opCount;
-                }
-                if (item.Contains("opTIO"))
-                {
-                    var s = "opTIO" + opCount;
-                    var sd = "opTIOE" + opCount;
-                    Qtype = "TIO";
-                    <div class=@sd><input name=@s value=@value type="text">@opCount</div>
-
-                    opCount++;
-                    ViewBag.OpCount = opCount;
-                }
-
-                if (item.Contains("IUO"))
-                {
-                    var s = "opIUO" + opCount;
-                    var sd = "opIUOE" + opCount;
-                    Qtype = "IUO";
-                    <div class=@sd><input type="checkbox" disabled="disabled" name="myRadio3"><input name=@s value=@value type="text">@opCount</div>
-
-                    opCount++;
-                    ViewBag.OpCount = opCount;
-                }
-                if (item.Contains("opURO"))
-                {
-                    var s = "opURO" + opCount;
-                    var sd = "opUROE" + opCount;
-                    Qtype = "URO";
-                    <div class="col-md-1">
-                        <div class=@sd align="left">
-                            <button type="button" class="btnrating btn btn-default" data-attr="1" id="rating-star-1">
-                                <i class="glyphicon glyphicon-star" aria - hidden="true"></i>
-                                <input hidden name=@s value=@value>
-                            </button>
-
-                        </div>
+                    <div class="form-group col-md-12">
+                        <input type="submit" class="btn btn-success" value="Submit">
                     </div>
-                    opCount++;
-                    ViewBag.OpCount = opCount;
                 }
-
-
             }
         </div>
-                <div>
-
-
-                </div>
-
-                <div class="form-group col-md-12">
-                    <input type="submit" class="btn btn-success" value="Submit">
-                </div>
-            }
-        }
-    </div>
 
         <div class="col-md-2">
             <div align="center">
-                <button class="btn btn-default EditBtnAddOptions" data-areaId=@areaId id=@addID data-Qtype="@Qtype">
+                <button class="btn btn-default EditBtnAddOptions" data-areaId=@areaId id=@addID data-Qtype=@Qtype>
                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                     Add Option
                 </button>
@@ -145,8 +168,8 @@
     }
 </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
     $(document).ready(function () {
         var a = 0;
         var bEdit = @ViewBag.OpCount;
@@ -188,7 +211,7 @@
             LoadDataEdit();
             $("#psEdit").show();
                 $("#rrEdit").show();
-            
+
         });
         $("#rmvID"+@ViewBag.id).click(function () {
             bEdit = bEdit - 1;
@@ -203,7 +226,22 @@
 
         });
 
+        $("#up"+@ViewBag.id).change(function () {
+            alert("change")
+            if (this.files && this.files[0]) {
+                alert("change2")
+                var reader = new FileReader();
+                var imID = $(this).attr('data-imID')
+                alert(imID)
+                reader.onload = function (e) {
+                    $('.' + imID).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+                var loc = $('.' + imID).attr('src');
+                alert(loc)
+            }
+        });
     });
-    </script>
+</script>
 
 

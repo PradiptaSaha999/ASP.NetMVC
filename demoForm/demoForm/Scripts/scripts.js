@@ -1,25 +1,4 @@
-﻿$(function () {
-    $("#loaderbody").addClass('hide');
-
-
-    $(document).bind('ajaxStart', function () {
-        $("#loaderbody").removeClass('hide');
-    }).bind('ajaxStop', function () {
-        $("#loaderbody").addClass('hide');
-    });
-});
-
-
-function ShowImagePreview(imageUploader, previewImage) {
-    if (imageUploader.files && imageUploader.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $(previewImage).attr('src', e.target.result);
-        }
-        reader.readAsDataURL(imageUploader.files[0]);
-    }
-}
-
+﻿
 function jQueryAjaxPost(form) {
     $.validator.unobtrusive.parse(form);
     if ($(form).valid()) {
@@ -29,7 +8,7 @@ function jQueryAjaxPost(form) {
             data: new FormData(form),
             success: function (response) {
                 if (response.success) {
-                    $("#FirstTab").html(response.html);
+                    //$("#FirstTab").html(response.html);
                     refreshAddNewTab($(form).attr('data-restUrl'), true);
                     $.notify(response.message, "success");
                     if (typeof activatejQueryTable !== 'undefined' && $.isFunction(activatejQueryTable))
@@ -48,18 +27,4 @@ function jQueryAjaxPost(form) {
 
     }
     return false;
-}
-
-function refreshAddNewTab(resetUrl, showViewTab) {
-    $.ajax({
-        type: 'GET',
-        url: resetUrl,
-        success: function (response) {
-            $("#secoundTab").html(response);
-            $('ul.nav.nav-tabs a:eq(1)').html('Add New');
-            if (showViewTab)
-                $('ul.nav.nav-tabs a:eq(0)').tab('show');
-        }
-
-    });
 }

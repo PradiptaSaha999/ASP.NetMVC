@@ -1,8 +1,5 @@
-﻿
+﻿@model demoForm.Models.queSet
 @{
-    /**/
-
-    /**/
 
     Layout = null;
 }
@@ -14,17 +11,15 @@
 <h2>Add Question</h2>
 
 <div class="row">
+    @*<img src="~/AppFiles/Image/Default.png" style="margin:10px" height="200" width="200" id="imagePreview" />*
+    <input type="file" name="ImageUpload" accept="image/jpeg, image/png" id="up" data-imID="imagePreview" />*@
+
     <div class="col-md-6">
-        @using (Html.BeginForm("createNew", "ques"))
+        @using (Html.BeginForm("createNew", "ques", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
 
-            <div class="form-group">
-                <input hidden type="text" name="id" value=@ViewBag.id>
-                Queation:<br class="col-md-8">
-                <textarea typeof="text" name="que" placeholder="i.e What is the name of Capital City of BanglaDesh?" rows="2" cols="40"></textarea>
-
-                <br>
-            </div>
+         <img src="~/AppFiles/Image/Default.png" style="margin:10px" height="200" width="200" class="imagePreview" />
+         <input type="file" disabled="disabled"  name="ImageUpload" accept="image/jpeg, image/png" id="up" data-imID="imagePreview" />
             <div id="quesitonnaireArea" class="form-group">
 
             </div>
@@ -47,9 +42,10 @@
             <button class="dropdown-item" id="TIO" type="button">Text Input Option</button>
             <button class="dropdown-item" id="IUO" type="button">Image Upload Option</button>
             <button class="dropdown-item" id="URO" type="button">User Ratting Option</button>
+            <button class="dropdown-item" id="IQO" type="button">Image Question Option</button>
         </div>
     </div>
-    
+
 
 
 
@@ -77,33 +73,44 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
+
     $(document).ready(function () {
-        var OptionType ="RBO";
+        var OptionType = "RBO";
         var b = 0;
-        var html = '<div class="op' + OptionType + b + '"><input type="radio" disabled="disabled" name="myRadio3"><input name="op' + OptionType +' '+ b + '" placeholder="option" type="text"></div>'
-        $("#quesitonnaireArea").append(  html);
+        var vbid=@ViewBag.id;
+        var html = '<div class="op' + OptionType + b + '"><input type="radio" disabled="disabled" name="myRadio3"><input name="op' + OptionType + ' ' + b + '" placeholder="option" type="text"></div>'
+        var qustion = '<div class="form-group"> <input hidden type="text" name="id" value=' + vbid+'>Queation:<br class="col-md-8"><textarea typeof="text" name="que" placeholder="i.e What is the name of Capital City of BanglaDesh?" rows="2" cols="40"></textarea><br> </div>'
+       // var imageBox = '<div class="form-group"> <input hidden type="text" name="id" value=' + vbid +'><img src="/AppFiles/Image/Default.png" style="margin:10px" height="200" width="200" name="imagePreview" class="imagePreview" /> <input type="file" name="ImageUpload1" accept="image/jpeg, image/png" id="up1" data-imID="imagePreview" /></div>'
+        var imageBox = '<div class="form-group"> <input hidden type="text" name="id" value=' + vbid + '></div>'
+        $('.imagePreview').hide();
+        $("#up").hide();
+        $("#quesitonnaireArea").append(qustion);
+        $("#quesitonnaireArea").append(html);
         b = 1;
         if (b == 0) {
             $("#ps").hide();
-           
+
         }
         function LoadData() {
             if (OptionType == "RBO") {
                 html = '<div class="op' + OptionType + b + '"><input type="radio" disabled="disabled" name="myRadio3"><input name="op' + OptionType + ' ' + b + '" placeholder="option" type="text"></div>'
             }
             else if (OptionType == "CBO") {
-                html = '<div class="op' + OptionType + b + '"><input type="checkbox" disabled="disabled" name="myRadio3"><input name="op' + OptionType + ' '+ b + '" placeholder="option" type="text"></div>'
+                html = '<div class="op' + OptionType + b + '"><input type="checkbox" disabled="disabled" name="myRadio3"><input name="op' + OptionType + ' ' + b + '" placeholder="option" type="text"></div>'
             }
             else if (OptionType == "TIO") {
                 html = '<div class="op' + OptionType + b + '"><input name="op' + OptionType + b + '" placeholder="option" type="text"></div>'
             }
             else if (OptionType == "IUO") {
-                html = '<div class="op' + OptionType + b + '"><input type="checkbox" disabled="disabled" name="myRadio3"><input name="op' + OptionType + ' ' + b + '" placeholder="option" type="text"></div>'
+                html = '<div class="op' + OptionType + b + '"><button type="button" class="btnrating btn btn-default" value="Choose File" disabled="disabled">Choose File</button ><input disabled="disabled" placeholder="Image Path" type="text"><input hidden name="op' + OptionType + b + '" /></div>'
             }
             else if (OptionType == "URO") {
-              
+
                 html = '<div class="op' + OptionType + b + ' col-md-1"><button type="button" class="btnrating btn btn-default" name="op' + OptionType + ' ' + b + '" data-attr="1" ><i class="glyphicon glyphicon-star" aria - hidden="true" ></i><input hidden name="op' + OptionType + b + '" /> </button > </div>'
-                
+
+            }
+            else if (OptionType == "IQO") {
+                html = '<div class="op' + OptionType + b + '"><input name="op' + OptionType + b + '" placeholder="option" type="text"></div>'
             }
             $("#quesitonnaireArea").append(html);
             b++;
@@ -112,33 +119,64 @@
         $('.dropdown-item').click(function () {
             OptionType = $(this).attr('id')
             alert(OptionType)
-           
+
             b = 0;
             $("#quesitonnaireArea").empty();
+            if (OptionType != "IQO") {
+                $("#quesitonnaireArea").append(qustion);
+                $('.imagePreview').hide();
+                $("#up").hide();
+                $("#up").attr('disabled', 'disabled');
+
+            }
+
+            else {
+                $("#up").removeAttr("disabled");
+                $("#quesitonnaireArea").append(imageBox);
+                $('.imagePreview').show();
+                $("#up").show();
+            }
+            
             LoadData();
         });
 
 
         $("#btnAddOptions").click(function () {
-           
+
             LoadData();
             $("#ps").show();
             $("#rr").show();
         });
         $("#btnRemoveOptions").click(function () {
             b = b - 1;
-           
-                var value = ".op" + OptionType + b;
-                $("div").remove(value);
-           
-            
+
+            var value = ".op" + OptionType + b;
+            $("div").remove(value);
+
+
             if (b == 0) {
                 $("#ps").hide();
             }
 
-
+        });
+        $("#up").change(function () {
+            alert("change")
+            if (this.files && this.files[0])
+            {
+                alert("change2")
+                var reader = new FileReader();
+                var imID = $(this).attr('data-imID')
+                alert(imID)
+                reader.onload = function (e) {
+                    $('.' + imID).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(this.files[0]);
+                var loc = $('.' + imID).attr('src');
+                alert(loc)
+            }
         });
 
+      
     });
 </script>
 

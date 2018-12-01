@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -55,6 +56,14 @@ namespace demoForm.Controllers
                             //idArray[Qcount] = ID;
                             Qcount++;
                         }
+                        else if (key.Contains("ImageUpload"))
+                        {
+
+                            QueSets.Add("ID" + " c" + ID, ID.ToString());
+                            QueSets.Add(key + "c" + count, QueSets1[key]);
+                            //idArray[Qcount] = ID;
+                            Qcount++;
+                        }
                         else
                         {
                             QueSets.Add(key + "c" + count, QueSets1[key]);
@@ -86,19 +95,33 @@ namespace demoForm.Controllers
         public ActionResult createNew(FormCollection collection)
         {
             int count = 0;
-           
+            queSet queSet = new queSet();
+            Dictionary<string, string> QueSets = new Dictionary<string, string>();
             int accountID = Convert.ToInt32(collection["id"]);
             ViewBag.id = accountID;
-            
-            Dictionary<string, string> QueSets = new Dictionary<string, string>();
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase file = Request.Files[0];
+
+                if (file != null )
+                {
+
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    string extension = Path.GetExtension(file.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    QueSets["ImageUpload"] = "/AppFiles/Image/" + fileName;
+                    file.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Image/"), fileName));
+                }
+            }
             foreach (var key in collection.AllKeys)
             {
-                if(key!="id")
+                
+                if (key!="id")
                 {
                   
                     count = QueSets.Count+1;
                     QueSets[key + count] = collection[key];
-
+                  
                 }
                      
             }
@@ -106,7 +129,7 @@ namespace demoForm.Controllers
             string serialDat = JsonConvert.SerializeObject(QueSets);
            
            
-                queSet queSet = new queSet();
+               // queSet queSet = new queSet();
                 queSet.AccountID = accountID;
                 queSet.QuesSet = serialDat;
 
@@ -205,6 +228,20 @@ namespace demoForm.Controllers
             queSet queSet = new queSet();
             queSet.ID= Convert.ToInt32(collection["id"]);
             Dictionary<string, string> QueSets = new Dictionary<string, string>();
+            if (Request.Files.Count > 0)
+            {
+                HttpPostedFileBase file = Request.Files[0];
+
+                if (file != null)
+                {
+
+                    string fileName = Path.GetFileNameWithoutExtension(file.FileName);
+                    string extension = Path.GetExtension(file.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    QueSets["ImageUpload"] = "/AppFiles/Image/" + fileName;
+                    file.SaveAs(Path.Combine(Server.MapPath("~/AppFiles/Image/"), fileName));
+                }
+            }
             foreach (var key in collection.AllKeys)
             {
                 if (key != "id")
